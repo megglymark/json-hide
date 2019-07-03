@@ -1,36 +1,19 @@
-# JSON Mask [![Build Status](https://img.shields.io/travis/nemtsov/json-mask.svg)](http://travis-ci.org/nemtsov/json-mask) [![NPM version](https://img.shields.io/npm/v/json-mask.svg)](https://www.npmjs.com/package/json-mask) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+# JSON Hide [![Build Status](https://img.shields.io/travis/nemtsov/json-mask.svg)](http://travis-ci.org/nemtsov/json-mask) [![NPM version](https://img.shields.io/npm/v/json-mask.svg)](https://www.npmjs.com/package/json-mask) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-<img src="https://raw.github.com/nemtsov/json-mask/master/logo.png" align="right" width="267px" />
+This is a fork of [JSON Mask](https://github.com/nemtsov/json-mask)
 
-This is a tiny language and an engine for selecting specific parts of a JS object, hiding/masking the rest.
+While JSON Mask is used for selecting specific values in a object/array, JSON Hide is used for hiding that value. \
+This is useful if you come across a situation where you may want to log data but don't want to reveal sensitive information
+
 
 ```js
-var mask = require('json-mask');
-mask({ p: { a: 1, b: 2 }, z: 1 }, 'p/a,z'); // {p: {a: 1}, z: 1}
+var hide = require('json-hide');
+hide({ p: { a: 1, b: 2 }, z: 1 }, 'p/a,z'); // {p: {a: '********', b: 2}, z: '********'}
 ```
-
-The main difference between JSONPath / JSONSelect and this engine is that JSON Mask
-**preserves the structure of the original input object**.
-Instead of returning an array of selected sub-elements (e.g. `[{a: 1}, {z: 1}]` from example above),
-it filters-out the parts of the object that you don't need,
-keeping the structure unchanged: `{p: {a: 1}, z: 1}`.
-
-This is important because JSON Mask was designed with HTTP resources in mind,
-the structure of which I didn't want to change after the unwanted fields
-were masked / filtered.
 
 If you've used the Google APIs, and provided a `?fields=` query-string to get a
 [Partial Response](https://developers.google.com/+/api/#partial-responses), you've
-already used this language. The desire to have partial responses in
-my own Node.js-based HTTP services was the reason I wrote JSON Mask.
-
-_For [express](http://expressjs.com/) users, there's an
-[express-partial-response](https://github.com/nemtsov/express-partial-response) middleware.
-It will integrate with your existing services with no additional code
-if you're using `res.json()` or `res.jsonp()`. And if you're already using [koa](https://github.com/koajs/koa.git)
-check out the [koa-json-mask](https://github.com/nemtsov/koa-json-mask) middleware._
-
-This library has no dependencies. It works in Node as well as in the browser.
+already used this language.
 
 **Note:** the 1.5KB (gz), or 4KB (uncompressed) browser build is in the `/build` folder.
 
@@ -89,38 +72,39 @@ Here's what you'll get back:
 
 ```js
 var expectObj = {
-  url: 'https://plus.google.com/102817283354809142195/posts/F97fqZwJESL',
+  id: 'z12gtjhq3qn2xxl2o224exwiqruvtda0i',
+  url: '********',
   object: {
-    content:
-      'A picture... of a space ship... launched from earth 40 years ago.',
+    objectType: 'note',
+    content: '********',
     attachments: [
       {
-        url: 'http://apod.nasa.gov/apod/ap110908.html'
+        objectType: 'image',
+        url: '********'
+        image: { height: 284, width: 506 }
       }
     ]
   }
+  provider: {title: 'Google+' }
 };
 ```
 
 Let's test that:
 
 ```js
-var mask = require('json-mask');
+var hide = require('json-hide');
 var assert = require('assert');
 
-var maskedObj = mask(originalObj, fields);
+var maskedObj = hide(originalObj, fields);
 assert.deepEqual(maskedObj, expectObj);
 ```
 
-### Partial Responses Server Example
-
-Here's an example of using `json-mask` to implement the
-[Google API Partial Response](https://developers.google.com/+/api/#partial-responses)
+### Hidden Responses Server Example
 
 ```js
 var http = require('http');
 var url = require('url');
-var mask = require('json-mask');
+var hide = require('json-hide');
 var server;
 
 server = http.createServer(function(req, res) {
@@ -139,7 +123,7 @@ server = http.createServer(function(req, res) {
     ]
   };
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(mask(data, fields)));
+  res.end(JSON.stringify(hide(data, fields)));
 });
 
 server.listen(4000);
@@ -151,23 +135,17 @@ Let's test it:
 $ curl 'http://localhost:4000'
 {"firstName":"Mohandas","lastName":"Gandhi","aliases":[{"firstName":"Mahatma","lastName":"Gandhi"},{"firstName":"Bapu"}]}
 
-$ # Let's just get the first name
+$ # Let's hide the last name
 $ curl 'http://localhost:4000?fields=lastName'
-{"lastName":"Gandhi"}
+{"firstName":"Mohandas","lastName":"********","aliases":[{"firstName":"Mahatma","lastName":"Gandhi"},{"firstName":"Bapu"}]}
 
-$ # Now, let's just get the first names directly as well as from aliases
+$ # Now, let's hide all first names
 $ curl 'http://localhost:4000?fields=firstName,aliases(firstName)'
-{"firstName":"Mohandas","aliases":[{"firstName":"Mahatma"},{"firstName":"Bapu"}]}
+{"firstName":"********","lastName":"Gandhi","aliases":[{"firstName":"********","lastName":"Gandhi"},{"firstName":"********"}]}
 ```
 
 **Note:** a few more examples are in the `/example` folder.
 
-## CDN
-
-**unpkg**
-
-- `https://unpkg.com/json-mask/build/jsonMask.js`
-- `https://unpkg.com/json-mask/build/jsonMask.min.js`
 
 ## License
 
