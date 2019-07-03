@@ -1,8 +1,9 @@
 /**
  * json-mask | (c) 2015 Yuriy Nemtsov | https://github.com/nemtsov/json-mask/blob/master/LICENSE
+ * json-hide | (c) 2015 Mark Moniz | https://github.com/megglymark/json-hide/blob/master/LICENSE
  * @license
  */
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.jsonMask = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.jsonHide = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 var util = require('./util')
 var TERMINALS = {',': 1, '/': 2, '(': 3, ')': 4}
 
@@ -126,11 +127,9 @@ function _arrayProperties (arr, mask) {
 }
 
 function _properties (obj, mask) {
-  var maskedObj, key, value, ret, retKey, typeFunc
+  var maskedObj = obj
+  var key, value, ret, retKey, typeFunc
   if (!obj || !mask) return obj
-
-  if (util.isArray(obj)) maskedObj = []
-  else if (util.isObject(obj)) maskedObj = {}
 
   for (key in mask) {
     if (!util.has(mask, key)) continue
@@ -164,9 +163,9 @@ function _forAll (obj, mask, fn) {
 }
 
 function _object (obj, key, mask) {
-  var value = obj[key]
-  if (util.isArray(value)) return _array(obj, key, mask)
-  return mask ? _properties(value, mask) : value
+  if (!util.has(obj, key)) return undefined
+  if (util.isArray(obj[key])) return _array(obj, key, mask)
+  return mask ? _properties(obj[key], mask) : '********'
 }
 
 function _array (object, key, mask) {
@@ -177,7 +176,7 @@ function _array (object, key, mask) {
   var i
   var l
   if (!util.isArray(arr)) return _properties(arr, mask)
-  if (util.isEmpty(arr)) return arr
+  if (util.isEmpty(arr)) return '********'
   for (i = 0, l = arr.length; i < l; i++) {
     obj = arr[i]
     maskedObj = _properties(obj, mask)
