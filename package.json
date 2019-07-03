@@ -1,7 +1,7 @@
 {
-  "name": "json-mask",
-  "version": "0.3.8",
-  "description": "Tiny language and engine for selecting specific parts of a JS object, hiding the rest.",
+  "name": "json-hide",
+  "version": "0.1.0",
+  "description": "Tiny language and engine for hiding specific parts of a JS object",
   "main": "lib/index",
   "scripts": {
     "test": "npm run lint && mocha",
@@ -9,11 +9,12 @@
     "test-cov": "istanbul cover _mocha",
     "lint": "standard 'lib/**/*.js' 'test/**/*.js'",
     "build-browser": "npm run-script _build-browser-full; npm run-script _build-browser-license; npm run-script _build-browser-min",
-    "_build-browser-full": "browserify -s jsonMask -e lib/index.js | sed -e \"s/\\[ *'.*' *\\]/;/\" > build/jsonMask.js",
-    "_build-browser-license": "cat build/copyright  | cat - build/jsonMask.js  | tee build/jsonMask.js",
-    "_build-browser-min": "cat build/jsonMask.js | uglifyjs --comments > build/jsonMask.min.js"
+    "_build-browser-full": "browserify -s jsonHide -e lib/index.js | sed -e \"s/\\[ *'.*' *\\]/;/\" > build/jsonHide.js",
+    "_build-browser-license": "cat build/copyright  | cat - build/jsonHide.js  | tee build/jsonHide.js",
+    "_build-browser-min": "cat build/jsonHide.js | uglifyjs --comments > build/jsonHide.min.js"
   },
   "keywords": [
+    "hide",
     "mask",
     "filter",
     "select",
@@ -22,7 +23,10 @@
     "query",
     "json"
   ],
-  "author": "nemtsov@gmail.com",
+  "author": "Mark Moniz megglymark@gmail.com",
+  "contributors": [
+    "nemtsov@gmail.com"
+  ],
   "license": "MIT",
   "devDependencies": {
     "browserify": "^16.2.2",
