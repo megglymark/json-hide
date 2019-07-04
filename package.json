@@ -1,5 +1,5 @@
 {
-  "name": "json-hide",
+  "name": "@megglymark/json-hide",
   "version": "0.1.0",
   "description": "Tiny language and engine for hiding specific parts of a JS object",
   "main": "lib/index",
