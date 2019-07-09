@@ -163,3 +163,18 @@ describe('json-mask', function () {
     }(tests[i]))
   }
 })
+
+describe('custom mask', function () {
+  var object = {
+    a: 'a',
+    b: 'b',
+  }
+  var expectedObject = {
+    a: '@@@@@@@@',
+    b: 'b',
+  }
+  it('should mask with custom value', function () {
+    var result = mask(object, 'a', '@@@@@@@@')
+    assert.deepStrictEqual(result, expectedObject)
+  })
+})
