@@ -14,8 +14,8 @@ function A () {
   this.a = 3
   this.b = 4
 }
-var originalA = new A();
-var expectedA = new A();
+var originalA = new A()
+var expectedA = new A()
 expectedA.b = '********'
 
 tests = [{
@@ -97,7 +97,7 @@ tests = [{
 }, {
   m: 'url,obj(url,a/url)',
   o: {url: 1, id: '1', obj: {url: 'h', a: [{url: 1, z: 2}], c: 3}},
-  e: {url: '********', id: '1', obj: {url: '********', a: [{url: '********', z: 2}], c:3}}
+  e: {url: '********', id: '1', obj: {url: '********', a: [{url: '********', z: 2}], c: 3}}
 }, {
   m: '*(a,b)',
   o: {p1: {a: 1, b: 1, c: 1}, p2: {a: 2, b: 2, c: 2}},
@@ -109,7 +109,7 @@ tests = [{
 }, {
   m: 'object(objectType)',
   o: clone(fixture),
-  e: fixtureFilteredObjectObjectType 
+  e: fixtureFilteredObjectObjectType
 }, {
   m: 'url,object(content,attachments/url)',
   o: clone(fixture),
@@ -167,11 +167,11 @@ describe('json-mask', function () {
 describe('custom mask', function () {
   var object = {
     a: 'a',
-    b: 'b',
+    b: 'b'
   }
   var expectedObject = {
     a: '@@@@@@@@',
-    b: 'b',
+    b: 'b'
   }
   it('should mask with custom value', function () {
     var result = mask(object, 'a', '@@@@@@@@')
