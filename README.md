@@ -1,4 +1,4 @@
-# JSON Hide [![Build Status](https://img.shields.io/travis/nemtsov/json-mask.svg)](http://travis-ci.org/nemtsov/json-mask) [![NPM version](https://img.shields.io/npm/v/json-mask.svg)](https://www.npmjs.com/package/json-mask) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+# JSON Hide [![Build Status](https://img.shields.io/travis/megglymark/json-hide.svg)](http://travis-ci.org/megglymark/json-hide) [![NPM version](https://img.shields.io/npm/v/@megglymark/json-hide.svg)](https://www.npmjs.com/package/@megglymark/json-hide) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 This is a fork of [JSON Mask](https://github.com/nemtsov/json-mask)
 
