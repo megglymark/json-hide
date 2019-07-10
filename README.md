@@ -7,7 +7,7 @@ This is useful if you come across a situation where you may want to log data but
 
 
 ```js
-var hide = require('json-hide');
+var hide = require('@megglymark/json-hide');
 hide({ p: { a: 1, b: 2 }, z: 1 }, 'p/a,z'); // {p: {a: '********', b: 2}, z: '********'}
 ```
 
@@ -15,7 +15,18 @@ If you've used the Google APIs, and provided a `?fields=` query-string to get a
 [Partial Response](https://developers.google.com/+/api/#partial-responses), you've
 already used this language.
 
-**Note:** the 1.5KB (gz), or 4KB (uncompressed) browser build is in the `/build` folder.
+## Installation
+```
+npm install --save @megglymark/json-hide
+```
+## Usage
+```javascript
+hide(object, mask, [replacement])
+```
+ - `object (Object)` - Original object with values to be hidden.
+ - `mask (string)` - Masking string used to determine which values should be hidden. [Syntax](##Syntax)
+ - `[replacement] (string)` - Value that will be used to mask values. **Default:** `********`
+ - Returns: `Object` - Object with with replaced values based on the mask string.
 
 ## Syntax
 
@@ -92,7 +103,7 @@ var expectObj = {
 Let's test that:
 
 ```js
-var hide = require('json-hide');
+var hide = require('@megglymark/json-hide');
 var assert = require('assert');
 
 var maskedObj = hide(originalObj, fields);
@@ -104,7 +115,7 @@ assert.deepEqual(maskedObj, expectObj);
 ```js
 var http = require('http');
 var url = require('url');
-var hide = require('json-hide');
+var hide = require('@megglymark/json-hide');
 var server;
 
 server = http.createServer(function(req, res) {
