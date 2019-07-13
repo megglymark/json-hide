@@ -152,7 +152,7 @@ $ curl 'http://localhost:4000?fields=lastName'
 
 $ # Now, let's hide all first names
 $ curl 'http://localhost:4000?fields=firstName,aliases(firstName)'
-{"firstName":"********","lastName":"Gandhi","aliases":[{"firstName":"********","lastName":"Gandhi"},{"firstName":"********"}]}
+{"firstName":"qqqqqqqqqqqqqqqqqqqqqqqqq","lastName":"Gandhi","aliases":[{"firstName":"qqqqqqqqqqqqqqqqqqqqqqqqq","lastName":"Gandhi"},{"firstName":"qqqqqqqqqqqqqqqqqqqqqqqqq"}]}
 ```
 
 **Note:** a few more examples are in the `/example` folder.
