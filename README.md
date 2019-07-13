@@ -134,7 +134,7 @@ server = http.createServer(function(req, res) {
     ]
   };
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(hide(data, fields)));
+  res.end(JSON.stringify(hide(data, fields, 'qqqqqqqqqqqqqqqqqqqqqqqqq')));
 });
 
 server.listen(4000);
@@ -148,7 +148,7 @@ $ curl 'http://localhost:4000'
 
 $ # Let's hide the last name
 $ curl 'http://localhost:4000?fields=lastName'
-{"firstName":"Mohandas","lastName":"********","aliases":[{"firstName":"Mahatma","lastName":"Gandhi"},{"firstName":"Bapu"}]}
+{"firstName":"Mohandas","lastName":"qqqqqqqqqqqqqqqqqqqqqqqqq","aliases":[{"firstName":"Mahatma","lastName":"Gandhi"},{"firstName":"Bapu"}]}
 
 $ # Now, let's hide all first names
 $ curl 'http://localhost:4000?fields=firstName,aliases(firstName)'
